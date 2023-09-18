@@ -1,6 +1,8 @@
 package com.gabriel.rickAndMorty.client;
 
 import com.gabriel.rickAndMorty.response.CharacterResponse;
+import com.gabriel.rickAndMorty.response.EpisodeResponse;
+import com.gabriel.rickAndMorty.response.LocationResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
@@ -20,8 +22,8 @@ public class RickAndMortyClient {
         webClient = builder.baseUrl("https://rickandmortyapi.com/api").build();
     }
 
-    public Mono<CharacterResponse> findAndCharacterById(String id) {
-        log.info("Buscando o personagem com o id [{}]" + id);
+    public Mono<CharacterResponse> findAnCharacterById(String id) {
+        log.info("Buscando o personagem com o id [{}]", id);
         return webClient
                 .get()
                 .uri("/character/" + id)
@@ -30,5 +32,29 @@ public class RickAndMortyClient {
                 .onStatus(HttpStatusCode::is4xxClientError,
                         error -> Mono.error(new RuntimeException("Verifique os parametros informados")))
                 .bodyToMono(CharacterResponse.class);
+    }
+
+    public Mono<LocationResponse> findAnLocaltionById(String id) {
+        log.info("Buscando a localização com o id [{}]", id);
+        return webClient
+                .get()
+                .uri("/location/" + id)
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        error -> Mono.error(new RuntimeException("Verifique os parametros informados")))
+                .bodyToMono(LocationResponse.class);
+    }
+
+    public Mono<EpisodeResponse> findAnEpisodeById(String id) {
+        log.info("Buscando o episodio com o id [{}]", id);
+        return webClient
+                .get()
+                .uri("/episode/" + id)
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .onStatus(HttpStatusCode::is4xxClientError,
+                        error -> Mono.error(new RuntimeException("Verifique os parametros informados")))
+                .bodyToMono(EpisodeResponse.class);
     }
 }
