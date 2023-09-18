@@ -32,4 +32,6 @@ public class RickAndMorthController {
     public Mono<EpisodeResponse> getEpisodeById(@PathVariable String id) {
         return rickAndMortyClient.findAnEpisodeById(id);
     }
+
+
 }
